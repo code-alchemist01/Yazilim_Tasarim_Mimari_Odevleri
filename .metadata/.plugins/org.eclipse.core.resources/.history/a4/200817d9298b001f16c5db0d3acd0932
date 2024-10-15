@@ -1,0 +1,37 @@
+package ödev1;
+
+public class Hesap {
+    private String musteriAdi;
+    private int hesapNo;
+    private double bakiye;
+
+    // Yapıcı metot (Constructor)
+    public Hesap(String musteriAdi, int hesapNo, double baslangicBakiyesi) {
+        this.musteriAdi = musteriAdi;
+        this.hesapNo = hesapNo;
+        this.bakiye = baslangicBakiyesi;
+    }
+
+    // Bakiye görüntüleme metodu
+    public void bakiyeGoruntule() {
+        System.out.println("Hesap No: " + hesapNo);
+        System.out.println("Müşteri Adı: " + musteriAdi);
+        System.out.println("Bakiye: " + bakiye);
+    }
+
+    // Para yatırma metodu
+    public void paraYatir(double miktar) {
+        bakiye += miktar;
+        System.out.println("Hesabınıza " + miktar + " TL yatırıldı.");
+    }
+
+    // Para çekme metodu
+    public void paraCek(double miktar) {
+        if (bakiye >= miktar) {
+            bakiye -= miktar;
+            System.out.println("Hesabınızdan " + miktar + " TL çekildi.");
+        } else {
+            System.out.println("Yetersiz bakiye!");
+        }
+    }
+}
