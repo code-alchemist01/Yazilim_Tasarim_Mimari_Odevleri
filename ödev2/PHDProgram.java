@@ -1,13 +1,11 @@
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class PHDProgram {
     private String deptCode;
     private List<Student> students;
     private List<PHDCourse> courses;
     private List<PHDThesis> theses;
-    private FullTimeStudent fullTimeStudent;
-    private PartTimeStudent partTimeStudent;
     
     public PHDProgram(String deptCode) {
         this.deptCode = deptCode;
@@ -18,11 +16,8 @@ public class PHDProgram {
     
     public void addStudent(Student student) {
         students.add(student);
-        if (student instanceof FullTimeStudent) {
-            ((FullTimeStudent) student).setPhdProgram(this);
-        } else if (student instanceof PartTimeStudent) {
-            ((PartTimeStudent) student).setPhdProgram(this);
-        }
+        student.setPhdProgram(this);
+        System.out.println(student.getName() + " programına başarıyla eklendi.");
     }
     
     public void registerCourse(Student student, PHDCourse course) {
@@ -36,10 +31,55 @@ public class PHDProgram {
     
     public void registerThesis(Student student, PHDThesis thesis) {
         if (students.contains(student)) {
-            theses.add(thesis);
-            System.out.println(student.getName() + " başarıyla " + thesis.getThesisTopic() + " tezine kaydoldu.");
+            if (student instanceof FullTimeStudent) {
+                theses.add(thesis);
+                ((FullTimeStudent) student).setThesis(thesis);
+                System.out.println(student.getName() + " başarıyla " + thesis.getThesisTopic() + " tezine kaydoldu.");
+            } else {
+                System.out.println("Sadece tam zamanlı öğrenciler tez kaydı yapabilir!");
+            }
         } else {
             System.out.println("Öğrenci bu programa kayıtlı değil!");
+        }
+    }
+
+    public Student findStudent(String registrationNumber) {
+        for (Student student : students) {
+            if (student.getRegistrationNumber().equals(registrationNumber)) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public void displayStudents() {
+        if (students.isEmpty()) {
+            System.out.println("Kayıtlı öğrenci bulunmamaktadır.");
+            return;
+        }
+        for (Student student : students) {
+            System.out.println("- " + (student instanceof FullTimeStudent ? "Tam Zamanlı: " : "Yarı Zamanlı: ") 
+                              + student.getName() + " (" + student.getRegistrationNumber() + ")");
+        }
+    }
+
+    public void displayCourses() {
+        if (courses.isEmpty()) {
+            System.out.println("Kayıtlı ders bulunmamaktadır.");
+            return;
+        }
+        for (PHDCourse course : courses) {
+            System.out.println("- " + course.getCourseCode() + ": " + course.getCourseName());
+        }
+    }
+
+    public void displayTheses() {
+        if (theses.isEmpty()) {
+            System.out.println("Kayıtlı tez bulunmamaktadır.");
+            return;
+        }
+        for (PHDThesis thesis : theses) {
+            System.out.println("- " + thesis.getThesisCode() + ": " + thesis.getThesisTopic());
         }
     }
     
@@ -51,34 +91,15 @@ public class PHDProgram {
         this.deptCode = deptCode;
     }
     
-    public FullTimeStudent getFullTimeStudent() {
-        return fullTimeStudent;
+    public List<Student> getStudents() {
+        return students;
     }
     
-    public void setFullTimeStudent(FullTimeStudent fullTimeStudent) {
-        this.fullTimeStudent = fullTimeStudent;
-    }
-    public PartTimeStudent getPartTimeStudent() {
-        return partTimeStudent;
+    public List<PHDCourse> getCourses() {
+        return courses;
     }
     
-    public void setPartTimeStudent(PartTimeStudent partTimeStudent) {
-        this.partTimeStudent = partTimeStudent;
-    }
-    
-    public Student findStudent(String registrationNumber) {
-        for (Student student : students) {
-            if (student.getRegistrationNumber().equals(registrationNumber)) {
-                return student;
-            }
-        }
-        return null;
-    }
-    
-    public void displayStudents() {
-        for (Student student : students) {
-            System.out.println("- " + (student instanceof FullTimeStudent ? "Tam Zamanlı: " : "Yarı Zamanlı: ") 
-                              + student.getName() + " (" + student.getRegistrationNumber() + ")");
-        }
+    public List<PHDThesis> getTheses() {
+        return theses;
     }
 }

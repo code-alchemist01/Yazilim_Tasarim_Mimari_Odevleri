@@ -21,7 +21,7 @@ public class Main {
                 case 1:
                     System.out.println("Öğrenci Tipi (1: Tam Zamanlı, 2: Yarı Zamanlı): ");
                     int ogrenciTipi = scanner.nextInt();
-                    scanner.nextLine(); // Buffer temizleme
+                    scanner.nextLine();
                     
                     System.out.print("Öğrenci Numarası: ");
                     String ogrenciNo = scanner.nextLine();
@@ -33,8 +33,9 @@ public class Main {
                         phdProgram.addStudent(new FullTimeStudent(ogrenciNo, ogrenciAdi));
                     } else if (ogrenciTipi == 2) {
                         phdProgram.addStudent(new PartTimeStudent(ogrenciNo, ogrenciAdi));
+                    } else {
+                        System.out.println("Geçersiz öğrenci tipi!");
                     }
-                    System.out.println("Öğrenci başarıyla eklendi.");
                     break;
                     
                 case 2:
@@ -54,7 +55,6 @@ public class Main {
                     if (student != null) {
                         PHDCourse course = new PHDCourse(kursKodu, kursAdi, kursBolum);
                         phdProgram.registerCourse(student, course);
-                        System.out.println("Kurs kaydı başarıyla yapıldı.");
                     } else {
                         System.out.println("Öğrenci bulunamadı!");
                     }
@@ -74,12 +74,11 @@ public class Main {
                     String tezOgrNo = scanner.nextLine();
                     
                     Student thesisStudent = phdProgram.findStudent(tezOgrNo);
-                    if (thesisStudent != null && thesisStudent instanceof FullTimeStudent) {
+                    if (thesisStudent != null) {
                         PHDThesis thesis = new PHDThesis(tezKodu, tezBaslik, tezBolum);
-                        phdProgram.registerThesis((FullTimeStudent)thesisStudent, thesis);
-                        System.out.println("Tez kaydı başarıyla yapıldı.");
+                        phdProgram.registerThesis(thesisStudent, thesis);
                     } else {
-                        System.out.println("Öğrenci bulunamadı veya tam zamanlı öğrenci değil!");
+                        System.out.println("Öğrenci bulunamadı!");
                     }
                     break;
                     
@@ -88,6 +87,10 @@ public class Main {
                     System.out.println("PHD Program Bölüm Kodu: " + phdProgram.getDeptCode());
                     System.out.println("\nKayıtlı Öğrenciler:");
                     phdProgram.displayStudents();
+                    System.out.println("\nKayıtlı Dersler:");
+                    phdProgram.displayCourses();
+                    System.out.println("\nKayıtlı Tezler:");
+                    phdProgram.displayTheses();
                     break;
                     
                 case 5:

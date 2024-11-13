@@ -1,15 +1,15 @@
 public class FullTimeStudent extends Student {
-    private PHDProgram phdProgram;
+    private PHDThesis thesis;
     
     public FullTimeStudent(String registrationNumber, String name) {
         super(registrationNumber, name);
     }
     
-    public void setPhdProgram(PHDProgram phdProgram) {
-        this.phdProgram = phdProgram;
+    public PHDThesis getThesis() {
+        return thesis;
     }
     
-    public PHDProgram getPhdProgram() {
-        return phdProgram;
+    public void setThesis(PHDThesis thesis) {
+        this.thesis = thesis;
     }
 }
